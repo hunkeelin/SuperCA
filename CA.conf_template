@@ -1,0 +1,29 @@
+// the number of concurrency for particular job
+concur=
+
+// api key useless for now. 
+apikey=
+
+// the bind address. blank = all interface
+bindaddr=
+
+// port that the software will listen
+port=2018
+
+// by default this software will serve https, specify the cert path. It will automatically generate if it doesn't exist 
+certpath=
+
+// Same as above but for .key
+keypath=
+
+// The CA certs path directory. When you generate any CA certs it will end up here
+capath=
+
+// The CA keys path directory. When you generate any CA keys it will end up here
+cakeypath=
+
+// The work dir. Documentation will explain how it works. 
+workdir=
+
+//organization name for generating CA
+org=
