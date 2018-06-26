@@ -45,9 +45,6 @@ func websigncsr(w http.ResponseWriter, r *http.Request, p *Conn) ([]byte, int, *
 			fmt.Println("Unable to Sign csr")
 			return []byte(""), 500, &respb
 		}
-		//n := []byte{000}
-		//toReturn := append(rawcert, []byte{000}...)
-		//toReturn = append(toReturn, chainOfTrust...)
 		respb := respBody{
 			Cert:         rawcert,
 			ChainOfTrust: chainOfTrust,
