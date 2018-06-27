@@ -24,6 +24,8 @@ func runServer(c *Config) {
 	con.HandleFunc("/", func(w http.ResponseWriter, r *http.Request) {
 		newcon.handleWebHook(w, r)
 	})
+	con.Handle("/cacerts/", http.StripPrefix("/cacerts/", http.FileServer(http.Dir(c.capath))))
+
 	s := &klinserver.ServerConfig{
 		BindPort: c.port,
 		Cert:     c.certpath,
