@@ -4,7 +4,7 @@ import (
 	"sync"
 )
 
-type respBody struct {
+type s_respBody struct {
 	Cert         []byte `json:"cert"`
 	ChainOfTrust []byte `json:"chainoftrust"`
 }

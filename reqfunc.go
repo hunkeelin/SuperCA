@@ -11,8 +11,8 @@ import (
 	"strings"
 )
 
-func websigncsr(w http.ResponseWriter, r *http.Request, p *Conn) ([]byte, int, *respBody) {
-	var respb respBody
+func websigncsr(w http.ResponseWriter, r *http.Request, p *Conn) ([]byte, int, *s_respBody) {
+	var respb s_respBody
 	d, err := ioutil.ReadAll(r.Body)
 	clientCSR, err := x509.ParseCertificateRequest(d)
 	if err != nil {
@@ -45,7 +45,7 @@ func websigncsr(w http.ResponseWriter, r *http.Request, p *Conn) ([]byte, int, *
 			fmt.Println("Unable to Sign csr")
 			return []byte(""), 500, &respb
 		}
-		respb := respBody{
+		respb := s_respBody{
 			Cert:         rawcert,
 			ChainOfTrust: chainOfTrust,
 		}
