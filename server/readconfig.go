@@ -25,10 +25,10 @@ func Readconfig(p string) Config {
 	if err != nil {
 		log.Fatal("can't convert string to int for concur")
 	}
-	c.concur = concur
+	c.Concur = concur
 	apikey, err := config.Get("apikey")
 	checkerr(err)
-	c.apikey = apikey
+	c.Apikey = apikey
 
 	capath, err := config.Get("capath")
 	checkerr(err)
@@ -38,7 +38,7 @@ func Readconfig(p string) Config {
 		if string(capath[len(capath)-1]) != "/" {
 			capath += "/"
 		}
-		c.capath = capath
+		c.Capath = capath
 	}
 
 	cakeypath, err := config.Get("cakeypath")
@@ -49,7 +49,7 @@ func Readconfig(p string) Config {
 		if string(cakeypath[len(cakeypath)-1]) != "/" {
 			cakeypath += "/"
 		}
-		c.cakeypath = cakeypath
+		c.Cakeypath = cakeypath
 	}
 
 	workdir, err := config.Get("workdir")
@@ -60,28 +60,28 @@ func Readconfig(p string) Config {
 		if string(workdir[len(workdir)-1]) != "/" {
 			workdir += "/"
 		}
-		c.workdir = workdir
+		c.Workdir = workdir
 	}
 
 	org, err := config.Get("org")
 	checkerr(err)
-	c.org = org
+	c.Org = org
 
 	bindaddr, err := config.Get("bindaddr")
 	checkerr(err)
-	c.bindaddr = bindaddr
+	c.Bindaddr = bindaddr
 
 	port, err := config.Get("port")
 	checkerr(err)
-	c.port = port
+	c.Port = port
 
 	certpath, err := config.Get("certpath")
 	checkerr(err)
-	c.certpath = certpath
+	c.Certpath = certpath
 
 	keypath, err := config.Get("keypath")
 	checkerr(err)
-	c.keypath = keypath
+	c.Keypath = keypath
 
 	return c
 }
