@@ -66,7 +66,7 @@ func VerifySignature(secret []byte, signature string, body []byte) bool {
 
 func Isvalidmethod(r *http.Request) bool {
 	methodlist := []string{"GET", "HEAD", "POST", "PUT", "PATCH", "DELETE", "CONNECT", "OPTOINS", "TRACE"}
-	return stringInSlice(r.Method, methodlist)
+	return StringInSlice(r.Method, methodlist)
 }
 
 func Waitforqueue(dir string) *flock.Flock {
@@ -83,7 +83,7 @@ func Waitforqueue(dir string) *flock.Flock {
 	} else {
 		fmt.Println("wait 10 seconds there's another process running")
 		time.Sleep(10 * time.Second)
-		return waitforqueue(dir)
+		return Waitforqueue(dir)
 	}
 }
 
@@ -155,7 +155,7 @@ func Cleandir(s, env []string, workers int) {
 	sema := make(chan struct{}, workers)
 	wg := sync.WaitGroup{}
 	for _, element := range s {
-		if !stringInSlice(element, env) {
+		if !StringInSlice(element, env) {
 			sema <- struct{}{}
 			wg.Add(1)
 			go func(element string) {
@@ -172,7 +172,7 @@ func Createdir(s, env []string, workers int) {
 	sema := make(chan struct{}, workers)
 	wg := sync.WaitGroup{}
 	for _, element := range env {
-		if stringInSlice(element, s) == false {
+		if StringInSlice(element, s) == false {
 			sema <- struct{}{}
 			wg.Add(1)
 			go func(element string) {
