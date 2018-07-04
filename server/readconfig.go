@@ -1,17 +1,11 @@
 package caserver
 
 import (
+	"github.com/hunkeelin/SuperCA/utils"
 	"github.com/hunkeelin/klinenv"
 	"log"
 	"strconv"
 )
-
-func checkerr(err error) {
-	if err == nil {
-		panic(err)
-	}
-	return
-}
 
 func Readconfig(p string) Config {
 	var c Config
@@ -27,11 +21,11 @@ func Readconfig(p string) Config {
 	}
 	c.Concur = concur
 	apikey, err := config.Get("apikey")
-	checkerr(err)
+	cautils.Checkerr(err)
 	c.Apikey = apikey
 
 	capath, err := config.Get("capath")
-	checkerr(err)
+	cautils.Checkerr(err)
 	if len(capath) == 0 {
 		log.Fatal("Please specify capath in config")
 	} else {
@@ -42,7 +36,7 @@ func Readconfig(p string) Config {
 	}
 
 	cakeypath, err := config.Get("cakeypath")
-	checkerr(err)
+	cautils.Checkerr(err)
 	if len(cakeypath) == 0 {
 		log.Fatal("Please specify cakeypath in config")
 	} else {
@@ -53,7 +47,7 @@ func Readconfig(p string) Config {
 	}
 
 	workdir, err := config.Get("workdir")
-	checkerr(err)
+	cautils.Checkerr(err)
 	if len(workdir) == 0 {
 		log.Fatal("Please specify workdir in config")
 	} else {
@@ -64,23 +58,23 @@ func Readconfig(p string) Config {
 	}
 
 	org, err := config.Get("org")
-	checkerr(err)
+	cautils.Checkerr(err)
 	c.Org = org
 
 	bindaddr, err := config.Get("bindaddr")
-	checkerr(err)
+	cautils.Checkerr(err)
 	c.Bindaddr = bindaddr
 
 	port, err := config.Get("port")
-	checkerr(err)
+	cautils.Checkerr(err)
 	c.Port = port
 
 	certpath, err := config.Get("certpath")
-	checkerr(err)
+	cautils.Checkerr(err)
 	c.Certpath = certpath
 
 	keypath, err := config.Get("keypath")
-	checkerr(err)
+	cautils.Checkerr(err)
 	c.Keypath = keypath
 
 	return c
