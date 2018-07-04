@@ -16,7 +16,7 @@ func Server(c *Config, rootca string) {
 	newcon.concur = c.Concur
 	newcon.workdir = c.Workdir
 	newcon.capath = c.Capath
-	newcon.c.keypath = c.Cakeypath
+	newcon.keypath = c.Cakeypath
 
 	if !cautils.Exist(c.Certpath) || !cautils.Exist(c.Keypath) {
 		log.Fatal("key cert path for https does not exist!")
