@@ -3,8 +3,8 @@ package main
 import (
 	"encoding/pem"
 	"flag"
-	"github.com/SuperCA/server"
-	"github.com/SuperCA/utils"
+	"github.com/hunkeelin/SuperCA/server"
+	"github.com/hunkeelin/SuperCA/utils"
 	"github.com/hunkeelin/pki"
 	"log"
 	"os"
@@ -27,37 +27,37 @@ func main() {
 			log.Fatal("Please specify caOutName.")
 		}
 		j := &klinpki.CAConfig{
-			EmailAddress: "support@" + c.org + ".com",
+			EmailAddress: "support@" + c.Org + ".com",
 			EcdsaCurve:   "",
-			Certpath:     c.capath + *caOutName + ".crt",
-			Keypath:      c.cakeypath + *caOutName + ".key",
+			Certpath:     c.Capath + *caOutName + ".crt",
+			Keypath:      c.Cakeypath + *caOutName + ".key",
 			MaxDays:      7200,
 			RsaBits:      *caRsabits,
-			Organization: c.org,
+			Organization: c.Org,
 		}
 		klinpki.GenCA(j)
 		return
 	}
 	if *server {
-		if !cautils.Exist(c.capath+*rootCA+".crt") && !cautils.Exist(c.cakeypath+*rootCA+".key") {
-			rootcacsr := &klinpki.CAConfig{
-				EmailAddress: "support@" + c.org + ".com",
+		if !cautils.Exist(c.Capath+*rootCA+".crt") && !cautils.Exist(c.Cakeypath+*rootCA+".key") {
+			rootcsr := &klinpki.CAConfig{
+				EmailAddress: "support@" + c.Org + ".com",
 				EcdsaCurve:   "",
-				Certpath:     c.capath + *rootCA + ".crt",
-				Keypath:      c.cakeypath + *rootCA + ".key",
+				Certpath:     c.Capath + *rootCA + ".crt",
+				Keypath:      c.Cakeypath + *rootCA + ".key",
 				MaxDays:      7200,
 				RsaBits:      *caRsabits,
-				Organization: c.org,
+				Organization: c.Org,
 			}
-			klinpki.GenCA(rootcacsr)
+			klinpki.GenCA(rootcsr)
 		}
-		if !cautils.Exist(c.keypath) {
+		if !cautils.Exist(c.Keypath) {
 			j := &klinpki.CSRConfig{
 				RsaBits: 4096,
 			}
 			// generate key
 			csr, key := klinpki.GenCSRv2(j)
-			keyOut, err := os.OpenFile(c.keypath, os.O_WRONLY|os.O_CREATE|os.O_TRUNC, 0600)
+			keyOut, err := os.OpenFile(c.Keypath, os.O_WRONLY|os.O_CREATE|os.O_TRUNC, 0600)
 			if err != nil {
 				panic(err)
 			}
@@ -65,8 +65,8 @@ func main() {
 			keyOut.Close()
 			// generate cert
 			f := &klinpki.SignConfig{
-				Crtpath:  c.capath + *rootCA + ".crt",
-				Keypath:  c.cakeypath + *rootCA + ".key",
+				Crtpath:  c.Capath + *rootCA + ".crt",
+				Keypath:  c.Cakeypath + *rootCA + ".key",
 				CsrBytes: csr.Bytes,
 				Days:     365,
 				IsCA:     false,
@@ -76,7 +76,7 @@ func main() {
 				panic(err)
 			}
 
-			clientCRTFile, err := os.Create(c.certpath)
+			clientCRTFile, err := os.Create(c.Certpath)
 			if err != nil {
 				panic(err)
 			}
