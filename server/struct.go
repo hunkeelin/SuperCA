@@ -21,15 +21,15 @@ type Conn struct {
 	monorun   chan struct{}
 }
 type Config struct {
-	apikey    string
-	bindaddr  string
-	org       string
-	port      string
-	workdir   string
-	certpath  string
-	keypath   string
-	jobdir    string
-	concur    int
-	capath    string
-	cakeypath string
+	Apikey    string
+	Bindaddr  string
+	Org       string
+	Port      string
+	Workdir   string
+	Certpath  string
+	Keypath   string
+	Jobdir    string
+	Concur    int
+	Capath    string
+	Cakeypath string
 }

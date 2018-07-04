@@ -12,25 +12,25 @@ func Server(c *Config, rootca string) {
 	// define config params
 	sema := make(chan struct{}, 1)
 	newcon.monorun = sema
-	newcon.apikey = c.apikey
-	newcon.concur = c.concur
-	newcon.workdir = c.workdir
-	newcon.capath = c.capath
-	newcon.cakeypath = c.cakeypath
+	newcon.apikey = c.Apikey
+	newcon.concur = c.Concur
+	newcon.workdir = c.Workdir
+	newcon.capath = c.Capath
+	newcon.c.Keypath = c.Cakeypath
 
-	if !cautils.Exist(c.certpath) || !cautils.Exist(c.keypath) {
+	if !cautils.Exist(c.Certpath) || !cautils.Exist(c.Keypath) {
 		log.Fatal("key cert path for https does not exist!")
 	}
 	con := http.NewServeMux()
 	con.HandleFunc("/", func(w http.ResponseWriter, r *http.Request) {
 		newcon.handleWebHook(w, r)
 	})
-	con.Handle("/cacerts/", http.StripPrefix("/cacerts/", http.FileServer(http.Dir(c.capath))))
+	con.Handle("/c.Certs/", http.StripPrefix("/c.Certs/", http.FileServer(http.Dir(c.capath))))
 
 	s := &klinserver.ServerConfig{
-		BindPort: c.port,
-		Cert:     c.certpath,
-		Key:      c.keypath,
+		BindPort: c.Port,
+		Cert:     c.Certpath,
+		Key:      c.Keypath,
 		Trust:    "program/" + rootca + ".crt",
 		Https:    true,
 		//  Verify:   true,
