@@ -212,7 +212,7 @@ func Checkerr(e error) {
 
 func Trim(x string) string {
 	pattern := "'"
-	checkstring(x, pattern)
+	Checkstring(x, pattern)
 	bra := strings.Index(x, pattern)
 	if bra < 0 {
 		return ""
