@@ -6,6 +6,13 @@ import (
 	"strconv"
 )
 
+func checkerr(err error) {
+	if err == nil {
+		panic(err)
+	}
+	return
+}
+
 func Readconfig(p string) Config {
 	var c Config
 

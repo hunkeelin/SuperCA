@@ -4,6 +4,7 @@ import (
 	"crypto/x509"
 	"encoding/json"
 	"fmt"
+	"github.com/hunkeelin/SuperCA/utils"
 	"github.com/hunkeelin/pki"
 	"io/ioutil"
 	"net"
@@ -23,7 +24,7 @@ func websigncsr(w http.ResponseWriter, r *http.Request, p *Conn) ([]byte, int, *
 		return []byte("Failed DNS validation"), 500, &respb
 	}
 	//	if clientCSR.DNSNames[0]+"." == hostname[0] {
-	if stringInSlice(string(hostname[0][:len(hostname[0])-1]), clientCSR.DNSNames) {
+	if cautil.StringInSlice(string(hostname[0][:len(hostname[0])-1]), clientCSR.DNSNames) {
 		crtp, keyp, days, isCA, err := crtkeyDeterm(clientCSR.DNSNames[0], p.workdir)
 		if err != nil {
 			return []byte(err.Error()), 500, &respb
