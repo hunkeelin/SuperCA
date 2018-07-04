@@ -16,7 +16,7 @@ func Server(c *Config, rootca string) {
 	newcon.concur = c.Concur
 	newcon.workdir = c.Workdir
 	newcon.capath = c.Capath
-	newcon.c.Keypath = c.Cakeypath
+	newcon.c.keypath = c.Cakeypath
 
 	if !cautils.Exist(c.Certpath) || !cautils.Exist(c.Keypath) {
 		log.Fatal("key cert path for https does not exist!")
@@ -25,7 +25,7 @@ func Server(c *Config, rootca string) {
 	con.HandleFunc("/", func(w http.ResponseWriter, r *http.Request) {
 		newcon.handleWebHook(w, r)
 	})
-	con.Handle("/c.Certs/", http.StripPrefix("/c.Certs/", http.FileServer(http.Dir(c.capath))))
+	con.Handle("/c.Certs/", http.StripPrefix("/c.Certs/", http.FileServer(http.Dir(c.Capath))))
 
 	s := &klinserver.ServerConfig{
 		BindPort: c.Port,
