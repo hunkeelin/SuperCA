@@ -1,4 +1,4 @@
-package main
+package cautils
 
 import (
 	"crypto/hmac"
@@ -18,7 +18,7 @@ import (
 	"time"
 )
 
-func joblist(path string) map[string]string {
+func Joblist(path string) map[string]string {
 	m := make(map[string]string)
 	err := os.Chdir(path)
 	if err != nil {
@@ -48,7 +48,8 @@ func signBody(secret, body []byte) []byte {
 	return []byte(computed.Sum(nil))
 }
 
-func verifySignature(secret []byte, signature string, body []byte) bool {
+// Git verify signiture
+func VerifySignature(secret []byte, signature string, body []byte) bool {
 
 	const signaturePrefix = "sha1="
 	const signatureLength = 45 // len(SignaturePrefix) + len(hex(sha1))
@@ -63,12 +64,12 @@ func verifySignature(secret []byte, signature string, body []byte) bool {
 	return hmac.Equal(signBody(secret, body), actual)
 }
 
-func isvalidmethod(r *http.Request) bool {
+func Isvalidmethod(r *http.Request) bool {
 	methodlist := []string{"GET", "HEAD", "POST", "PUT", "PATCH", "DELETE", "CONNECT", "OPTOINS", "TRACE"}
 	return stringInSlice(r.Method, methodlist)
 }
 
-func waitforqueue(dir string) *flock.Flock {
+func Waitforqueue(dir string) *flock.Flock {
 	fileLock := flock.NewFlock(dir)
 
 	locked, err := fileLock.TryLock()
@@ -86,7 +87,7 @@ func waitforqueue(dir string) *flock.Flock {
 	}
 }
 
-func matchstring(s, regex string) bool {
+func Matchstring(s, regex string) bool {
 	match, err := regexp.MatchString(regex, s)
 	fmt.Println("")
 	if err != nil {
@@ -95,7 +96,7 @@ func matchstring(s, regex string) bool {
 	return match
 }
 
-func stringInSlice(a string, list []string) bool {
+func StringInSlice(a string, list []string) bool {
 	for _, b := range list {
 		if b == a {
 			return true
@@ -121,7 +122,7 @@ func FileExist(p string) bool {
 	return false
 }
 
-func runshell(cmd string, args []string, uid, gid uint32) error {
+func Runshell(cmd string, args []string, uid, gid uint32) error {
 	//err := exec.Command(cmd, args...).Run()
 	acmd := exec.Command(cmd, args...)
 	acmd.SysProcAttr = &syscall.SysProcAttr{}
@@ -131,7 +132,7 @@ func runshell(cmd string, args []string, uid, gid uint32) error {
 	return err
 }
 
-func removestring(s []string, pattern string) []string {
+func Removestring(s []string, pattern string) []string {
 	var toreturn []string
 	for _, raw_element := range s {
 		element := strings.Replace(raw_element, " ", "", -1)
@@ -146,11 +147,11 @@ func removestring(s []string, pattern string) []string {
 	return toreturn
 }
 
-func outshell(cmd string, args []string) (string, error) {
+func Outshell(cmd string, args []string) (string, error) {
 	output, err := exec.Command(cmd, args...).Output()
 	return string(output), err
 }
-func cleandir(s, env []string, workers int) {
+func Cleandir(s, env []string, workers int) {
 	sema := make(chan struct{}, workers)
 	wg := sync.WaitGroup{}
 	for _, element := range s {
@@ -167,7 +168,7 @@ func cleandir(s, env []string, workers int) {
 	wg.Wait()
 }
 
-func createdir(s, env []string, workers int) {
+func Createdir(s, env []string, workers int) {
 	sema := make(chan struct{}, workers)
 	wg := sync.WaitGroup{}
 	for _, element := range env {
@@ -183,7 +184,7 @@ func createdir(s, env []string, workers int) {
 	}
 	wg.Wait()
 }
-func checkstring(s, pattern string) {
+func Checkstring(s, pattern string) {
 	if strings.HasPrefix(s, "mod") {
 		if string(s[len(s)-1]) != "," {
 			log.Fatal("error missing comma on line: ", s)
@@ -203,13 +204,13 @@ func checkstring(s, pattern string) {
 		log.Fatal("error missing single quotes on line: ", s)
 	}
 }
-func checkerr(e error) {
+func Checkerr(e error) {
 	if e != nil {
 		log.Fatal(e)
 	}
 }
 
-func trim(x string) string {
+func Trim(x string) string {
 	pattern := "'"
 	checkstring(x, pattern)
 	bra := strings.Index(x, pattern)
