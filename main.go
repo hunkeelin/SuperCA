@@ -3,21 +3,25 @@ package main
 import (
 	"encoding/pem"
 	"flag"
+	"github.com/SuperCA/server"
+	"github.com/SuperCA/utils"
 	"github.com/hunkeelin/pki"
 	"log"
 	"os"
 )
 
 var (
-	gconfdir  = flag.String("config", "/etc/superCA/CA.conf", "location of the genkins.conf")
+	gconfdir  = flag.String("config", "/etc/superca/CA.conf", "location of the genkins.conf")
 	genCa     = flag.Bool("genCA", false, "Generate ca")
 	server    = flag.Bool("server", false, "Run the CA server")
 	caOutName = flag.String("caOutName", "", "Name of the ca without extensions")
+	caRsabits = flag.Int("caRsaBits", 4096, "rsabits when generating ca")
+	rootCA    = flag.String("Rootca", "rootca", "name of the rootca crt")
 )
 
 func main() {
 	flag.Parse()
-	c := readconfig(*gconfdir)
+	c := caserver.Readconfig(*gconfdir)
 	if *genCa {
 		if *caOutName == "" {
 			log.Fatal("Please specify caOutName.")
@@ -28,14 +32,26 @@ func main() {
 			Certpath:     c.capath + *caOutName + ".crt",
 			Keypath:      c.cakeypath + *caOutName + ".key",
 			MaxDays:      7200,
-			RsaBits:      4096,
+			RsaBits:      *caRsabits,
 			Organization: c.org,
 		}
 		klinpki.GenCA(j)
 		return
 	}
 	if *server {
-		if !Exist(c.keypath) {
+		if !cautils.Exist(c.capath+*rootCA+".crt") && !cautils.Exist(c.cakeypath+*rootCA+".key") {
+			rootcacsr := &klinpki.CAConfig{
+				EmailAddress: "support@" + c.org + ".com",
+				EcdsaCurve:   "",
+				Certpath:     c.capath + *rootCA + ".crt",
+				Keypath:      c.cakeypath + *rootCA + ".key",
+				MaxDays:      7200,
+				RsaBits:      *caRsabits,
+				Organization: c.org,
+			}
+			klinpki.GenCA(rootcacsr)
+		}
+		if !cautils.Exist(c.keypath) {
 			j := &klinpki.CSRConfig{
 				RsaBits: 4096,
 			}
@@ -49,8 +65,8 @@ func main() {
 			keyOut.Close()
 			// generate cert
 			f := &klinpki.SignConfig{
-				Crtpath:  c.capath + "rootca.crt",
-				Keypath:  c.cakeypath + "rootca.key",
+				Crtpath:  c.capath + *rootCA + ".crt",
+				Keypath:  c.cakeypath + *rootCA + ".key",
 				CsrBytes: csr.Bytes,
 				Days:     365,
 				IsCA:     false,
@@ -68,6 +84,6 @@ func main() {
 			clientCRTFile.Close()
 
 		}
-		runServer(&c)
+		caserver.Server(&c, *rootCA)
 	}
 }
