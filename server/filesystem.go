@@ -2,6 +2,7 @@ package caserver
 
 import (
 	"errors"
+	"fmt"
 	"github.com/hunkeelin/SuperCA/utils"
 	"github.com/hunkeelin/klinenv"
 	"strconv"
