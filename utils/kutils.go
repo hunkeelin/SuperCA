@@ -112,14 +112,15 @@ func Exist(p string) bool {
 	return false
 }
 
-func FileExist(p string) bool {
+func FileExist(p string) (bool, error) {
 	if f, err := os.Stat(p); err == nil {
 		if f.Mode().IsRegular() {
-			return true
+			return true, nil
 		}
-		return false
+		return false, nil
+	} else {
+		return false, err
 	}
-	return false
 }
 
 func Runshell(cmd string, args []string, uid, gid uint32) error {

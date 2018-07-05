@@ -10,27 +10,36 @@ import (
 
 func recursePrint(h []string, p string) (klinenv.AppConfig, error) {
 	if len(h) == 0 {
-		if cautils.FileExist(p + "config") {
-			return klinenv.NewAppConfig(p + "config"), nil
+		if f, err := cautils.FileExist(p + "config"); err == nil {
+			if f {
+				return klinenv.NewAppConfig(p + "config"), nil
+			} else {
+				f := klinenv.AppConfig{}
+				return f, errors.New("no such config file")
+			}
 		} else {
-			f := klinenv.AppConfig{}
-			return f, errors.New("no such config file")
+			return klinenv.NewAppConfig("error"), err
 		}
 	} else {
 		var s string
 		for i := range h {
 			s += h[len(h)-1-i] + "/"
 		}
-		if cautils.FileExist(p + s + "config") {
-			return klinenv.NewAppConfig(p + s + "config"), nil
+		if f, err := cautils.FileExist(p + s + "config"); err == nil {
+			if f {
+				return klinenv.NewAppConfig(p + s + "config"), nil
+			} else {
+				return recursePrint(h[1:], p)
+			}
 		} else {
-			return recursePrint(h[1:], p)
+			return klinenv.NewAppConfig("error"), err
 		}
 	}
 }
 func crtkeyDeterm(h, p string) (string, string, float64, bool, error) {
 	cfg, err := recursePrint(strings.Split(h, "."), p)
 	if err != nil {
+		fmt.Println(err)
 		return "", "", 0, false, errors.New("Server no defaults")
 	} else {
 		cacrt, err := cfg.Get("cacrt")
