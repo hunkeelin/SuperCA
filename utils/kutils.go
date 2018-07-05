@@ -112,14 +112,14 @@ func Exist(p string) bool {
 	return false
 }
 
-func FileExist(p string) (bool, error) {
+func FileExist(p string) bool {
 	if f, err := os.Stat(p); err == nil {
 		if f.Mode().IsRegular() {
 			return true, nil
 		}
-		return false, nil
+		return false
 	} else {
-		return false, err
+		return false
 	}
 }
 

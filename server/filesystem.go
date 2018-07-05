@@ -11,29 +11,21 @@ import (
 
 func recursePrint(h []string, p string) (klinenv.AppConfig, error) {
 	if len(h) == 0 {
-		if f, err := cautils.FileExist(p + "config"); err == nil {
-			if f {
-				return klinenv.NewAppConfig(p + "config"), nil
-			} else {
-				f := klinenv.AppConfig{}
-				return f, errors.New("no such config file")
-			}
+		if cautils.FileExist(p + "config") {
+			return klinenv.NewAppConfig(p + "config"), nil
 		} else {
-			return klinenv.NewAppConfig("error"), err
+			f := klinenv.AppConfig{}
+			return f, errors.New("no such config file")
 		}
 	} else {
 		var s string
 		for i := range h {
 			s += h[len(h)-1-i] + "/"
 		}
-		if f, err := cautils.FileExist(p + s + "config"); err == nil {
-			if f {
-				return klinenv.NewAppConfig(p + s + "config"), nil
-			} else {
-				return recursePrint(h[1:], p)
-			}
+		if cautils.FileExist(p + s + "config") {
+			return klinenv.NewAppConfig(p + s + "config"), nil
 		} else {
-			return klinenv.NewAppConfig("error"), err
+			return recursePrint(h[1:], p)
 		}
 	}
 }
