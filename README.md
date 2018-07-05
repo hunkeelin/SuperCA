@@ -25,7 +25,7 @@ run build.sh
 ####Config file####
 - The documentation of CA.conf is pretty much self explanationary in CA.conf_template. Only thing that needs to take caution is workdir. The workdir specifys the directory to do fine grain control. For example let's say you set workdir=/tmp
 
-When a request come in, it will search for the hostname and do a reverse dns lookup and split the directory by "." and read the configuration accordingly. By default it will try to read the config /tmp/config. The config should follow the following format:
+When a request come in, it will search for the hostname and do a reverse hostname lookup and split the directory by "." and read the configuration accordingly. By default it will try to read the config /tmp/config. The config should follow the following format:
 
 ```
 // The name of the ca to sign any csr request. All the cacert name should be located in $capath in CA.conf. E.G devca.crt
