@@ -115,7 +115,7 @@ func Exist(p string) bool {
 func FileExist(p string) bool {
 	if f, err := os.Stat(p); err == nil {
 		if f.Mode().IsRegular() {
-			return true, nil
+			return true
 		}
 		return false
 	} else {
