@@ -1,13 +1,13 @@
-#### Introduction ####
+### Introduction ###
 The is the super CA written in Go. Can handle a lot of csr request at the same time. 
 
-#### Feature ####
+### Feature ###
 - low memory footprint
 - fine grain access control 
 - super fast 
 - Security is conformed to current standard
 
-#### Usage ####
+### Usage ###
 I've included the binary built for linux. However, if you want to compiled it your self following the below instructions: 
 
 1. download latest version of `go`
@@ -19,10 +19,10 @@ run build.sh
 ```
 - The software will automatically generate rootca.crt in your `$work/CA/certs` and `$work/CA/keys` directory upon startup. However, you can replace rootca.crt and rootca.key with your own intermca you got from outside CA like symantec or godaddy. 
 
-#### Public certs ####
+### Public certs ###
 - All certs files are located in https://$hostname:$port/cacerts
 
-####Config file####
+### Config file ###
 - The documentation of CA.conf is pretty much self explanationary in CA.conf_template. Only thing that needs to take caution is workdir. The workdir specifys the directory to do fine grain control. For example let's say you set workdir=/tmp
 
 When a request come in, it will search for the hostname and do a reverse hostname lookup and split the directory by "." and read the configuration accordingly. By default it will try to read the config /tmp/config. The config should follow the following format:
