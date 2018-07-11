@@ -37,24 +37,29 @@ func crtkeyDeterm(h, p string) (string, string, float64, bool, error) {
 	} else {
 		cacrt, err := cfg.Get("cacrt")
 		if err != nil {
+			fmt.Println(err)
 			return "", "", 0, false, errors.New("Server no default")
 		}
 
 		cakey, err := cfg.Get("cakey")
 		if err != nil {
+			fmt.Println(err)
 			return "", "", 0, false, errors.New("Server no default")
 		}
 
 		isca, err := cfg.Get("isca")
 		if err != nil {
+			fmt.Println(err)
 			return "", "", 0, false, errors.New("Server no default")
 		}
 
 		allow, err := cfg.Get("allow")
 		if err != nil {
+			fmt.Println(err)
 			return "", "", 0, false, errors.New("Server no default")
 		}
 		if strings.TrimSpace(strings.ToLower(allow)) != "true" {
+			fmt.Println(err)
 			return "", "", 0, false, errors.New("Server not allowed to get crt")
 		}
 		isCA := false
@@ -64,10 +69,12 @@ func crtkeyDeterm(h, p string) (string, string, float64, bool, error) {
 
 		validdays, err := cfg.Get("validdays")
 		if err != nil {
+			fmt.Println(err)
 			return "", "", 0, false, errors.New("Server no default")
 		}
 		vdays, err := strconv.ParseFloat(validdays, 32)
 		if err != nil {
+			fmt.Println(err)
 			return "", "", 0, false, errors.New("Server no default")
 		}
 		return cacrt, cakey, vdays, isCA, nil
