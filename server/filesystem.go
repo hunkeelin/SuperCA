@@ -29,13 +29,6 @@ func recursePrint(h []string, p string) (klinenv.AppConfig, error) {
 		}
 	}
 }
-func reverse(numbers []string) []string {
-	for i := 0; i < len(numbers)/2; i++ {
-		j := len(numbers) - i - 1
-		numbers[i], numbers[j] = numbers[j], numbers[i]
-	}
-	return numbers
-}
 func recursePrintv2(h []string, p string) (klinenv.AppConfig, error) {
 	var s string
 	for i := range h {
