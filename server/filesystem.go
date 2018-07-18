@@ -29,8 +29,37 @@ func recursePrint(h []string, p string) (klinenv.AppConfig, error) {
 		}
 	}
 }
+func reverse(numbers []string) []string {
+	for i := 0; i < len(numbers)/2; i++ {
+		j := len(numbers) - i - 1
+		numbers[i], numbers[j] = numbers[j], numbers[i]
+	}
+	return numbers
+}
+func recursePrintv2(h []string, p string) (klinenv.AppConfig, error) {
+	var s string
+	for i := range h {
+		s += h[len(h)-1-i] + "/"
+	}
+	for !cautils.FileExist(p + s + "config") {
+		if len(h) == 0 {
+			if cautils.FileExist(p + "config") {
+				return klinenv.NewAppConfig(p + "config"), nil
+			} else {
+				f := klinenv.AppConfig{}
+				return f, errors.New("no such config file")
+			}
+		}
+		h = h[1:]
+		s = ""
+		for i := range h {
+			s += h[len(h)-1-i] + "/"
+		}
+	}
+	return klinenv.NewAppConfig(p + s + "config"), nil
+}
 func crtkeyDeterm(h, p string) (string, string, float64, bool, error) {
-	cfg, err := recursePrint(strings.Split(h, "."), p)
+	cfg, err := recursePrintv2(strings.Split(h, "."), p)
 	if err != nil {
 		fmt.Println(err)
 		return "", "", 0, false, errors.New("Server no defaults")
