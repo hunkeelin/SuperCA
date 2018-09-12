@@ -28,11 +28,9 @@ run build.sh
 When a request come in, it will search for the hostname and do a reverse hostname lookup and split the directory by "." and read the configuration accordingly. By default it will try to read the config /tmp/config. The config should follow the following format:
 
 ```
-// The name of the ca to sign any csr request. All the cacert name should be located in $capath in CA.conf. E.G devca.crt
-cacrt=
+// The name of the ca to sign any csr request. All the cacert name should be located in $capath in CA.conf. E.G devca
+signca=
 // Same as above but for keys. E.G devca.key
-cakey=
-// Whether to sign this csr and return a CA cert. True/False (Default: False)
 isca=
 // Whether it is even allow to sign any request at all. True/False (Default: False)
 allow=
