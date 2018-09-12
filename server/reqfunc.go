@@ -25,7 +25,7 @@ func websigncsr(w http.ResponseWriter, r *http.Request, p *Conn) ([]byte, int, *
 	}
 	//	if clientCSR.DNSNames[0]+"." == hostname[0] {
 	if cautils.StringInSlice(string(hostname[0][:len(hostname[0])-1]), clientCSR.DNSNames) {
-		crtp, keyp, days, isCA, err := crtkeyDeterm(clientCSR.DNSNames[0], p.workdir)
+		crtp, keyp, days, isCA, err := crtkeyDeterm(clientCSR.DNSNames[0], p.workdir, r.Header.Get("SignCA"))
 		if err != nil {
 			return []byte(err.Error()), 500, &respb
 		}

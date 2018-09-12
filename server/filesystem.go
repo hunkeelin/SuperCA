@@ -5,6 +5,7 @@ import (
 	"fmt"
 	"github.com/hunkeelin/SuperCA/utils"
 	"github.com/hunkeelin/klinenv"
+	"github.com/hunkeelin/klinutils"
 	"strconv"
 	"strings"
 )
@@ -29,7 +30,7 @@ func recursePrint(h []string, p string) (klinenv.AppConfig, error) {
 		}
 	}
 }
-func recursePrintv2(h []string, p string) (klinenv.AppConfig, error) {
+func iterativePrint(h []string, p string) (klinenv.AppConfig, error) {
 	var s string
 	for i := range h {
 		s += h[len(h)-1-i] + "/"
@@ -51,22 +52,34 @@ func recursePrintv2(h []string, p string) (klinenv.AppConfig, error) {
 	}
 	return klinenv.NewAppConfig(p + s + "config"), nil
 }
-func crtkeyDeterm(h, p string) (string, string, float64, bool, error) {
-	cfg, err := recursePrintv2(strings.Split(h, "."), p)
+func crtkeyDeterm(h, p, wca string) (string, string, float64, bool, error) {
+	var cacrt, cakey string
+	cfg, err := iterativePrint(strings.Split(h, "."), p)
 	if err != nil {
 		fmt.Println(err)
 		return "", "", 0, false, errors.New("Server no defaults")
 	} else {
-		cacrt, err := cfg.Get("cacrt")
+		signca, err := cfg.Get("signca")
 		if err != nil {
 			fmt.Println(err)
 			return "", "", 0, false, errors.New("Server no default")
 		}
-
-		cakey, err := cfg.Get("cakey")
-		if err != nil {
-			fmt.Println(err)
+		listca := strings.Split(signca, ",")
+		if listca[0] == "" {
+			fmt.Println("no Signca specified")
 			return "", "", 0, false, errors.New("Server no default")
+		}
+		if wca == "" {
+			cacrt = listca[0] + ".crt"
+			cakey = listca[0] + ".key"
+		} else {
+			if klinutils.StringInSlice(wca, listca) {
+				cacrt = wca + ".crt"
+				cakey = wca + ".key"
+			} else {
+				fmt.Println("Request SignCA not allowed")
+				return "", "", 0, false, errors.New("Server no default")
+			}
 		}
 
 		isca, err := cfg.Get("isca")
