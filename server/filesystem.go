@@ -77,7 +77,7 @@ func crtkeyDeterm(h, p, wca string) (string, string, float64, bool, error) {
 				cacrt = wca + ".crt"
 				cakey = wca + ".key"
 			} else {
-				fmt.Println("Request SignCA not allowed: ", +wca)
+				fmt.Println("Request SignCA not allowed: " + wca)
 				return "", "", 0, false, errors.New("Server no default")
 			}
 		}
