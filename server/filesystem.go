@@ -72,6 +72,7 @@ func crtkeyDeterm(h, p, wca string) (string, string, float64, bool, error) {
 		if wca == "" {
 			cacrt = listca[0] + ".crt"
 			cakey = listca[0] + ".key"
+			fmt.Println("Signing with " + cacrt)
 		} else {
 			if klinutils.StringInSlice(wca, listca) {
 				cacrt = wca + ".crt"
