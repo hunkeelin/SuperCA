@@ -84,9 +84,6 @@ func main() {
 			clientCRTFile.Close()
 
 		}
-		err = caserver.Server(&c, *rootCA)
-        if err != nil {
-            panic(err)
-        }
+		panic(caserver.Server(&c, *rootCA))
 	}
 }
