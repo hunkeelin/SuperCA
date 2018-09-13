@@ -7,7 +7,7 @@ import (
 	"net/http"
 )
 
-func Server(c *Config, rootca string) {
+func Server(c *Config, rootca string) (error){
 	newcon := new(Conn)
 	// define config params
 	sema := make(chan struct{}, 1)
@@ -36,5 +36,5 @@ func Server(c *Config, rootca string) {
 		//  Verify:   true,
 		ServeMux: con,
 	}
-	klinserver.Server(s)
+	return klinserver.Server(s)
 }
