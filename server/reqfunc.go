@@ -58,6 +58,8 @@ func websigncsr(w http.ResponseWriter, r *http.Request, p *Conn) ([]byte, int, *
 		}
 		return encodebody, 200, &respb
 	} else {
+        fmt.Println("list of name to match",string(hostname[0][:len(hostname[0])-1]))
+        fmt.Println("Client dns name",clientCSR.DNSNames)
 		return []byte("Failed at dns validation"), 500, &respb
 	}
 }
