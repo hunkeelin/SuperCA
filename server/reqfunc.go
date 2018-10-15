@@ -21,6 +21,7 @@ func websigncsr(w http.ResponseWriter, r *http.Request, p *Conn) ([]byte, int, *
 	}
 	hostname, err := net.LookupAddr(strings.Split(r.RemoteAddr, ":")[0])
 	if err != nil {
+        fmt.Println(r.RemoteAddr)
 		return []byte("Failed DNS validation"), 500, &respb
 	}
 	//	if clientCSR.DNSNames[0]+"." == hostname[0] {
@@ -57,6 +58,8 @@ func websigncsr(w http.ResponseWriter, r *http.Request, p *Conn) ([]byte, int, *
 		}
 		return encodebody, 200, &respb
 	} else {
+        fmt.Println("list of name to match",string(hostname[0][:len(hostname[0])-1]))
+        fmt.Println("Client dns name",clientCSR.DNSNames)
 		return []byte("Failed at dns validation"), 500, &respb
 	}
 }
