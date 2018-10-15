@@ -30,7 +30,7 @@ When a request come in, it will search for the hostname and do a reverse hostnam
 ```
 // The name of the ca to sign any csr request. All the cacert name should be located in $capath in CA.conf. E.G devca
 signca=
-// Same as above but for keys. E.G devca.key
+// Whether to give back a CA cert to the requester.
 isca=
 // Whether it is even allow to sign any request at all. True/False (Default: False)
 allow=
