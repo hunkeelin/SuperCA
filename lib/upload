@@ -1,0 +1,4 @@
+#!/bin/bash
+git add *go
+git commit -m "updated"
+go get github.com/hunkeelin/SuperCA/lib
