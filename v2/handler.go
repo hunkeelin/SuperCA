@@ -18,7 +18,6 @@ func (c *conn) mainHandler(w http.ResponseWriter, r *http.Request) {
 			w.WriteHeader(500)
 		}
 	default:
-		fmt.Println("Invalid Method, or not yet implemented")
-		w.WriteHeader(500)
+        http.Error(w,"invalid method: endpoint is GET only",500)
 	}
 }
