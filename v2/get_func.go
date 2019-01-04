@@ -14,7 +14,7 @@ import (
 	"strings"
 )
 
-func (c *conn) websigncsr(w http.ResponseWriter, r *http.Request) error {
+func (c *Conn) websigncsr(w http.ResponseWriter, r *http.Request) error {
 	csrbytes, err := ioutil.ReadAll(r.Body)
 	if err != nil {
 		return err
@@ -38,8 +38,8 @@ func (c *conn) websigncsr(w http.ResponseWriter, r *http.Request) error {
 	}
 
 	f := &klinpki.SignConfig{
-		Crtpath:  c.capath + crtp,
-		Keypath:  c.cakeypath + keyp,
+		Crtpath:  c.Cacertpath + crtp,
+		Keypath:  c.Cakeypath + keyp,
 		CsrBytes: csrbytes,
 		Days:     days,
 		IsCA:     isCA,
@@ -48,7 +48,7 @@ func (c *conn) websigncsr(w http.ResponseWriter, r *http.Request) error {
 	if err != nil {
 		return err
 	}
-	chainOfTrust, err := ioutil.ReadFile(c.capath + crtp)
+	chainOfTrust, err := ioutil.ReadFile(c.Cacertpath + crtp)
 	if err != nil {
 		return err
 	}
@@ -86,10 +86,10 @@ func itprint(h []string, p string) (klinenv.AppConfig, error) {
 	return klinenv.NewAppConfig(p + s + "config"), nil
 }
 
-func (c *conn) crtkeyDeterm(hostname, signca string) (string, string, float64, bool, error) {
+func (c *Conn) crtkeyDeterm(hostname, signca string) (string, string, float64, bool, error) {
 	var cacrt, cakey string
 	var isCA bool
-	cfg, err := itprint(strings.Split(hostname, "."), c.workdir)
+	cfg, err := itprint(strings.Split(hostname, "."), c.Workdir)
 	if err != nil {
 		return "", "", 0, false, err
 	}

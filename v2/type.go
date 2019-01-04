@@ -1,8 +1,8 @@
 package caserver
 
-type conn struct {
-	workdir   string
-	cakeypath string
-	capath    string
-	regex     string
+type Conn struct {
+	Workdir    string
+	Cakeypath  string
+	Cacertpath string
+	regex      string
 }

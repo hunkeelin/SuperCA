@@ -8,7 +8,7 @@ import (
 
 var json = jsoniter.ConfigCompatibleWithStandardLibrary
 
-func (c *conn) mainHandler(w http.ResponseWriter, r *http.Request) {
+func (c *Conn) MainHandler(w http.ResponseWriter, r *http.Request) {
 	fmt.Println("received request from ", r.RemoteAddr)
 	switch r.Method {
 	case "GET":
@@ -18,6 +18,6 @@ func (c *conn) mainHandler(w http.ResponseWriter, r *http.Request) {
 			w.WriteHeader(500)
 		}
 	default:
-        http.Error(w,"invalid method: endpoint is GET only",500)
+		http.Error(w, "invalid method: endpoint is GET only", http.StatusMethodNotAllowed)
 	}
 }

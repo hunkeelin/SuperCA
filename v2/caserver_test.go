@@ -10,14 +10,14 @@ import (
 )
 
 func TestServer(t *testing.T) {
-	c := conn{
-		workdir:   "/home/bgops/files/golesson/SuperCA/program/work/",
-		cakeypath: "/home/bgops/files/golesson/SuperCA/program/CA/keys/",
-		capath:    "/home/bgops/files/golesson/SuperCA/program/CA/certs/",
+	c := Conn{
+		Workdir:   "/home/bgops/files/golesson/SuperCA/program/work/",
+		Cakeypath: "/home/bgops/files/golesson/SuperCA/program/CA/keys/",
+		Cacertpath:    "/home/bgops/files/golesson/SuperCA/program/CA/certs/",
 	}
 	con := http.NewServeMux()
 	con.HandleFunc("/", func(w http.ResponseWriter, r *http.Request) {
-		c.mainHandler(w, r)
+		c.MainHandler(w, r)
 	})
 	con.Handle("/cacerts/", http.StripPrefix("/cacerts/", http.FileServer(http.Dir("/home/bgops/files/golesson/SuperCA/program/CA/certs"))))
 	j := &klinserver.ServerConfig{
@@ -50,8 +50,8 @@ func TestItprint(t *testing.T) {
 
 func TestDeterm(t *testing.T) {
 	fmt.Println("testing determ")
-	c := conn{
-		workdir: "/home/bgops/files/golesson/SuperCA/program/work/",
+	c := Conn{
+		Workdir: "/home/bgops/files/golesson/SuperCA/program/work/",
 	}
 	fmt.Println(c.crtkeyDeterm("test1.klin-pro.com", "intermca"))
 }
