@@ -13,7 +13,7 @@ import (
 )
 
 var (
-	confdir   = flag.String("confdir", "/var/lib/superca/confdir/", "the directory for node classification")
+	confdir   = flag.String("confdir", "/var/lib/superca/work/", "the directory for node classification")
 	cakeydir  = flag.String("cakeydir", "/var/lib/superca/CA/keys/", "the directory for ca certs private keys")
 	cacertdir = flag.String("cacertdir", "/var/lib/superca/CA/certs/", "the directory for ca certs")
 	org       = flag.String("org", "st", "organization")
