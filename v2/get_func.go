@@ -7,6 +7,7 @@ import (
 	"github.com/hunkeelin/klinenv"
 	"github.com/hunkeelin/klinutils"
 	"github.com/hunkeelin/pki"
+	"io"
 	"io/ioutil"
 	"net"
 	"net/http"
@@ -15,7 +16,7 @@ import (
 )
 
 func (c *Conn) websigncsr(w http.ResponseWriter, r *http.Request) error {
-	csrbytes, err := ioutil.ReadAll(r.Body)
+	csrbytes, err := ioutil.ReadAll(io.LimitReader(r.Body, 65573))
 	if err != nil {
 		return err
 	}
